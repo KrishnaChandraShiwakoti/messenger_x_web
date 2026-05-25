@@ -1,9 +1,9 @@
-import PhoenFormZod from "../_components/phoneFormZod";
+import PhoneFormZod from "../_components/phoneFormZod";
 
 export default function Page() {
   return (
     <div>
-      <PhoenFormZod />
+      <PhoneFormZod />
     </div>
   );
 }

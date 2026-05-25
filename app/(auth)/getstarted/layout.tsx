@@ -57,7 +57,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               fontSize: 32,
               marginBottom: 8,
             }}>
-            Aura
+            MessengerX
           </div>
           <p
             className="text-text-sub"

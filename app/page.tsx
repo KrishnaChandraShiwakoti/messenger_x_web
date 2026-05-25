@@ -130,7 +130,7 @@ export default function Home() {
           <button
             className=" relative z-1 inline-flex items-center gap-2 px-8 py-3.5 rounded-[12px] bg-white text-primary text-[15px] font-bold cursor-pointer transition-all duration-200 shadow-[0_8px_24px_rgba(0,0,0,0.15)] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.2)]"
             onClick={() => router.push("/getstarted")}>
-            Get started — it&apos;s free
+            Get started
             <Ic d={icons.chevR} size={16} color="#4338ca" />
           </button>
         </section>
