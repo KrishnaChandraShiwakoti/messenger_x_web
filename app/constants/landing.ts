@@ -37,3 +37,13 @@ export const Features = [
     desc: "AI filters noise and surfaces what matters. Urgent messages rise to the top, the rest can wait.",
   },
 ];
+
+export const STEP_NUMS = { phone: 1, otp: 2, profile: 3 };
+
+export type StepKey = keyof typeof STEP_NUMS;
+
+export const STEP_LABELS = {
+  phone: "Phone Number",
+  otp: "Enter Code",
+  profile: "Your Profile",
+};
