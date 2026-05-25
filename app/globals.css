@@ -1,10 +1,51 @@
 @import "tailwindcss";
+@theme {
+  /* Backgrounds */
+  --color-bg: #fafbff;
+  --color-bg-alt: #f3f5fc;
+  --color-surface: #ffffff;
+  --color-surface-2: #f0f2fa;
+  --color-surface-3: #e8eaf5;
+  --color-surface-4: #dde0f0;
 
+  /* Text */
+  --color-text-main: #0d0e1a;
+  --color-text-sub: #5b5f82;
+  --color-text-muted: #a0a5c8;
+
+  /* Brand */
+  --color-primary: #4338ca;
+  --color-secondary: #7c3aed;
+  --color-accent: #0ea5e9;
+
+  /* States */
+  --color-success: #059669;
+  --color-danger: #dc2626;
+  --color-warning: #d97706;
+
+  /* Radius */
+  --radius-card: 12px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 16px rgba(67, 56, 202, 0.08);
+  --shadow-md: 0 4px 28px rgba(67, 56, 202, 0.13);
+  --shadow-lg: 0 12px 48px rgba(67, 56, 202, 0.16);
+
+  --animate-float: float 3s ease-in-out infinite;
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+}
 :root {
   --background: #ffffff;
   --foreground: #111111;
 }
-
 html,
 body {
   height: 100%;
