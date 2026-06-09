@@ -37,7 +37,7 @@ export default function LoginPage() {
   };
   return (
     <>
-      <div className="absolute top-6 left-6 flex items-center gap-2 ">
+      <div className="absolute top-6 left-6 flex items-center gap-2 lg:hidden ">
         <span
           className="font-syne font-bold text-lg text-white hover:text-aura-p1 transition-colors cursor-pointer"
           onClick={() => router.push("/")}>
@@ -47,10 +47,10 @@ export default function LoginPage() {
       <div className="flex-1 flex items-start justify-center px-6 py-8 relative overflow-y-auto ">
         <div className="w-full max-w-[460px] animate-fadeUp pt-16 lg:pt-8 pb-8">
           <h2 className="font-syne font-extrabold text-3xl text-white mb-1.5">
-            Create your account
+            Log in to your account
           </h2>
           <p className="text-aura-sub text-sm leading-relaxed mb-8">
-            Fill in your details to get started. It only takes a minute.
+            Enter your credentials to access your account.
           </p>
 
           <form
@@ -75,7 +75,8 @@ export default function LoginPage() {
                 </span>
                 <input
                   type="email"
-                  placeholder="alex@example.com"
+                  {...register("email")}
+                  placeholder="Enter your email"
                   className="aura-input w-full bg-aura-surf2 border border-white/[0.07] rounded-2xl pl-11 pr-4 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200"
                 />
               </div>
@@ -99,9 +100,9 @@ export default function LoginPage() {
                   </svg>
                 </span>
                 <input
-                  id="reg-pw"
                   type="password"
-                  placeholder="Min. 8 characters"
+                  {...register("password")}
+                  placeholder="Enter your password"
                   className="aura-input w-full bg-aura-surf2 border border-white/[0.07] rounded-2xl pl-11 pr-11 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200"
                 />
                 <button className="absolute right-4 top-1/2 -translate-y-1/2 text-aura-muted hover:text-aura-sub transition-colors">
@@ -126,36 +127,25 @@ export default function LoginPage() {
                 id="strength-label"
                 className="text-[11px] text-aura-muted mt-1.5"></p>
             </div>
+            <button
+              className="bg-aura-p1 hover:bg-aura-p2 hover:cursor-pointer w-full mt-6 rounded-2xl py-3.5 text-[15px] font-semibold  flex items-center justify-center gap-2 text-white"
+              type="submit">
+              Login
+              <svg
+                width="15"
+                height="15"
+                fill="none"
+                stroke="white"
+                stroke-width="2.2"
+                viewBox="0 0 24 24">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
           </form>
 
-          <button
-            className="bg-aura-p1 hover:bg-aura-p2 hover:cursor-pointer w-full mt-6 rounded-2xl py-3.5 text-[15px] font-semibold  flex items-center justify-center gap-2 text-white"
-            type="submit">
-            Login
-            <svg
-              width="15"
-              height="15"
-              fill="none"
-              stroke="white"
-              stroke-width="2.2"
-              viewBox="0 0 24 24">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </button>
-
-          <p className="text-center text-xs text-aura-muted mt-4">
-            By signing up you agree to our
-            <a href="#" className="text-indigo-400 hover:underline">
-              Terms
-            </a>{" "}
-            and
-            <a href="#" className="text-indigo-400 hover:underline">
-              Privacy Policy
-            </a>
-          </p>
           <p className="text-center mt-4 text-sm text-aura-sub">
-            no account yet?
+            No account yet?
             <button
               className="text-indigo-400 font-semibold hover:text-indigo-300 transition-colors ml-1"
               onClick={() => router.push("/register")}>
