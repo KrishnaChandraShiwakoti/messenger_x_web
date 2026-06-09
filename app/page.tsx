@@ -39,7 +39,7 @@ export default function Home() {
             </p>
             <button
               className="flex items-center gap-2 px-7 py-3.5 rounded-[12px] bg-gradient-to-br from-[#4338CA] to-[#7C3AED] text-white text-[15px] font-bold border-0 cursor-pointer transition-all duration-200 shadow-2xs tracking-[0.2px] hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(67,56,202,0.22)]"
-              onClick={() => router.push("/getstarted")}>
+              onClick={() => router.push("/register")}>
               SignUp
             </button>
           </div>
@@ -129,7 +129,7 @@ export default function Home() {
 
           <button
             className=" relative z-1 inline-flex items-center gap-2 px-8 py-3.5 rounded-[12px] bg-white text-primary text-[15px] font-bold cursor-pointer transition-all duration-200 shadow-[0_8px_24px_rgba(0,0,0,0.15)] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.2)]"
-            onClick={() => router.push("/getstarted")}>
+            onClick={() => router.push("/register")}>
             Get started
             <Ic d={icons.chevR} size={16} color="#4338ca" />
           </button>

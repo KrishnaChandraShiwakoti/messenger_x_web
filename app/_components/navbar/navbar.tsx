@@ -14,11 +14,18 @@ export default function Navbar() {
       <ul>
         <Navlinks />
       </ul>
-      <button
-        className="bg-linear-to-r from-[#4338CA] to-[#7C3AED] px-5 py-2 rounded-xl text-white font-semibold border-0 cursor-pointer transition-all duration-200 tracking-[0.2px] hover:-translate-y-px "
-        onClick={() => router.push("/getstarted")}>
-        Get started
-      </button>
+      <div className="flex items-center gap-4">
+        <button
+          className="bg-linear-to-r from-[#4338CA] to-[#7C3AED] px-5 py-2 rounded-xl text-white font-semibold border-0 cursor-pointer transition-all duration-200 tracking-[0.2px] hover:-translate-y-px "
+          onClick={() => router.push("/login")}>
+          Login
+        </button>
+        <button
+          className="bg-linear-to-r from-[#4338CA] to-[#7C3AED] px-5 py-2 rounded-xl text-white font-semibold border-0 cursor-pointer transition-all duration-200 tracking-[0.2px] hover:-translate-y-px "
+          onClick={() => router.push("/register")}>
+          Register
+        </button>
+      </div>
     </div>
   );
 }

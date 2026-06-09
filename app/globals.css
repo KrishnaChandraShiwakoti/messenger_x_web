@@ -1,5 +1,18 @@
 @import "tailwindcss";
 @theme {
+  /* auth */
+  --color-aura-bg: "#07080F";
+  --color-aura-surface: #0e1020;
+  --color-aura-surf2: #37383f;
+  --color-aura-surf3: #1c2038;
+  --color-aura-border: rgba(255, 255, 255, 0.07);
+  --color-aura-p1: #4f46e5;
+  --color-aura-p2: #7c3aed;
+  --color-aura-accent: #22d3ee;
+  --color-aura-sub: #8b8fad;
+  --color-aura-muted: #b7b9cc;
+  --color-aura-danger: #ef4444;
+  --color-aura-success: #10b981;
   /* Backgrounds */
   --color-bg: #fafbff;
   --color-bg-alt: #f3f5fc;
