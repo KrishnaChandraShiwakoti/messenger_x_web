@@ -1,10 +1,19 @@
 "use server"; // server side api call
-import { register, login } from "@/lib/api/auth";
+import {
+  register,
+  login,
+  whoami,
+  updateProfile,
+  updatePassword,
+} from "@/lib/api/auth";
 import {
   LoginFormData,
   RegisterFormData,
 } from "@/app/(auth)/_components/schema";
-import { setTokenCookie, storeUserData } from "@/lib/cookies";
+import { clearAuthCookies, setTokenCookie, storeUserData } from "@/lib/cookies";
+import { revalidatePath } from "next/cache";
+import { redirect, RedirectType } from "next/navigation";
+import { UpdatePasswordFormData } from "@/app/dashboard/_components/schema";
 
 export const handleRegisterUser = async (data: RegisterFormData) => {
   try {
@@ -41,4 +50,92 @@ export const handleLoginUser = async (data: LoginFormData) => {
   } catch (error: Error | any) {
     return { success: false, message: error?.message || "Login failed" };
   }
+};
+export const handleUserDetails = async () => {
+  try {
+    const result = await whoami();
+    if (result.success) {
+      return { success: true, message: result.message, data: result.data };
+    } else {
+      return {
+        success: false,
+        message: result.message || "Failed to fetch user details",
+      };
+    }
+  } catch (error: Error | any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch user details",
+    };
+  }
+};
+
+export const handleUpdateProfile = async (formData: FormData) => {
+  try {
+    const result = await updateProfile(formData);
+    const user = result.data;
+    await storeUserData(user);
+    if (result.success) {
+      await revalidatePath("/dashboard/profile"); // Revalidate the profile page after successful update
+      return { success: true, message: result.message, data: result.data };
+    } else {
+      return {
+        success: false,
+        message: result.message || "Failed to update profile",
+      };
+    }
+  } catch (error: Error | any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to update profile",
+    };
+  }
+};
+
+export const handleUpdatePassword = async (data: UpdatePasswordFormData) => {
+  try {
+    const result = await updatePassword(data);
+    if (result.success) {
+      return { success: true, message: result.message, data: result.data };
+    } else {
+      return {
+        success: false,
+        message: result.message || "Failed to update password",
+      };
+    }
+  } catch (error: Error | any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to update password",
+    };
+  }
+};
+export async function getUserData() {
+  try {
+    const result = await whoami();
+    // how to send data to component
+    if (result.success) {
+      return {
+        success: true,
+        data: result.data,
+        message: result.message || "Fetch user info successful",
+      };
+    }
+    return {
+      success: false,
+      message: result.message || "Fetch user info failed",
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Fetch user info failed",
+    };
+  }
+}
+
+export const handleLogout = async () => {
+  // Clear cookies or tokens here
+  // donot use try/catch, redirect is treated as an exception in nextjs server component
+  await clearAuthCookies();
+  redirect("/login", RedirectType.replace);
 };
