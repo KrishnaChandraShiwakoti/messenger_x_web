@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getTokenCookie, getUserInfoCookie } from "./lib/cookies";
-const publicRoutes = ["/login", "/register", "/"];
+const publicRoutes = ["/login", "/register"];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
