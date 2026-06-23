@@ -27,6 +27,7 @@ const accountItems = [
     subtitle: "Change Password",
     icon: icons.shield,
     tone: "text-[#0891b2] bg-[#e0f7fb]",
+    url: "/dashboard/security",
   },
 ];
 
@@ -91,8 +92,9 @@ function ProfileSection({
             onClick={() => {
               if (item.url) {
                 router.push(item.url!);
+              } else {
+                toast.info(`Page Not added Yet`); // Show toast message
               }
-              toast.info(`Page Not added Yet`); // Show toast message
             }}>
             <span
               className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-lg ${item.tone}`}>

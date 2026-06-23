@@ -5,6 +5,6 @@ export const API = {
     LOGIN: "/api/v1/users/login",
     WHOAMI: "/api/v1/users/whoami",
     UPDATE: "/api/v1/users/update",
-    UPDATE_PASSWORD: "/api/v1/users/update-password",
+    UPDATE_PASSWORD: "/api/v1/users/change-password",
   },
 };
