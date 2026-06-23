@@ -3,6 +3,8 @@
 import { Ic, icons } from "@/app/constants/icons";
 import { useAuth } from "@/lib/context/AuthContext";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { toast } from "react-toastify";
 
 export type UserInfo = Record<string, unknown> | null;
 
@@ -86,7 +88,12 @@ function ProfileSection({
             key={item.title}
             type="button"
             className="flex min-h-[86px] w-full items-center gap-5 rounded-lg border border-[#e5e7f4] bg-white px-6 text-left shadow-[0_12px_28px_rgba(67,56,202,0.06)] transition hover:border-[#d9d4ff] hover:bg-[#fbfaff]"
-            onClick={() => router.push(item.url!)}>
+            onClick={() => {
+              if (item.url) {
+                router.push(item.url!);
+              }
+              toast.info(`Page Not added Yet`); // Show toast message
+            }}>
             <span
               className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-lg ${item.tone}`}>
               <Ic d={item.icon} size={25} stroke2={2.05} />
@@ -117,15 +124,26 @@ export function ProfileClient({ initialUser }: { initialUser: UserInfo }) {
   const phone = getText(user, ["phoneNumber", "phone", "mobile"], "");
   const email = getText(user, ["email"], "No email added");
   const initial = (name || email || "Y").trim().charAt(0).toUpperCase();
+  const profilePicture = user?.profilePicture as string | undefined | null;
 
   return (
     <div className="mx-auto flex w-full max-w-[980px] flex-col gap-8">
       <section className="overflow-hidden rounded-lg border border-[#e4e6f4] bg-white shadow-[0_20px_55px_rgba(67,56,202,0.08)]">
         <div className="bg-[#f5f6ff] px-8 pb-8 pt-10 text-center">
-          <div className="relative mx-auto mb-5 h-[132px] w-[132px]">
-            <div className="flex h-full w-full items-center justify-center rounded-[30px] bg-[#4338ca] text-[56px] font-black text-white shadow-[0_20px_40px_rgba(67,56,202,0.26)]">
-              {initial}
-            </div>
+          <div className="relative mx-auto  h-[100px] w-[100px]">
+            {profilePicture ? (
+              <Image
+                src={process.env.NEXT_PUBLIC_API_URL! + profilePicture!}
+                alt="Profile Image"
+                width={100}
+                height={100}
+                className="w-24 h-24 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center">
+                <span className="text-gray-600">No Image</span>
+              </div>
+            )}
           </div>
 
           <h1 className="text-[38px] font-black leading-tight text-[#171827]">
