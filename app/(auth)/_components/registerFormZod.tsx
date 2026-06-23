@@ -7,7 +7,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { handleRegisterUser } from "@/lib/actions/auth-action";
 
 export default function RegisterPage() {
   const [isPending, startTransition] = useTransition();
@@ -27,18 +27,27 @@ export default function RegisterPage() {
     // and false after it finishes
     setError("");
     startTransition(async () => {
-      //    try {
-      //      const result = ;
-      //      if (result.success) {
-      //        router.push("/login");
-      //      } else {
-      //        setError(result.message || "Registration failed");
-      //      }
-      //    } catch (error: any) {
-      //      setError(error?.message || "Registration failed");
-      //    }
+      console.log("Submitting form with data:", data);
+      try {
+        console.log("Before action");
+
+        const result = await handleRegisterUser(data);
+
+        console.log("After action");
+        console.log(result);
+        if (result.success) {
+          router.push("/login");
+        } else {
+          setError(result.message || "Registration failed");
+        }
+      } catch (error: any) {
+        console.log(error?.message);
+
+        setError(error?.message || "Registration failed");
+      }
     });
   };
+  const errClass = "mt-1 block text-sm text-white";
   return (
     <div className="bg-aura-surface w-full">
       <div className="flex-1 flex items-start justify-center px-6 py-8 relative overflow-y-auto ">
@@ -69,8 +78,11 @@ export default function RegisterPage() {
                 type="text"
                 {...register("fullName")}
                 placeholder="Enter your full name"
-                className="aura-input w-full bg-aura-surf2 border border-black rounded-2xl px-4 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200"
+                className="aura-input w-full bg-aura-surf2 border border-black rounded-2xl px-4 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200 focus:placeholder-white"
               />
+              {errors.fullName && (
+                <span className={errClass}>{errors.fullName.message}</span>
+              )}
             </div>
 
             <div>
@@ -94,9 +106,12 @@ export default function RegisterPage() {
                   type="email"
                   {...register("email")}
                   placeholder="Enter your email"
-                  className="aura-input w-full bg-aura-surf2 border border-white/[0.07] rounded-2xl pl-11 pr-4 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200"
+                  className="aura-input w-full bg-aura-surf2 border border-white/[0.07] rounded-2xl pl-11 pr-4 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200 focus:placeholder-white"
                 />
               </div>
+              {errors.email && (
+                <span className={errClass}>{errors.email.message}</span>
+              )}
             </div>
 
             <div>
@@ -122,6 +137,9 @@ export default function RegisterPage() {
                   className="aura-input w-full bg-aura-surf2 border border-white/[0.07] rounded-2xl pl-11 pr-4 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200"
                 />
               </div>
+              {errors.phoneNumber && (
+                <span className={errClass}>{errors.phoneNumber.message}</span>
+              )}
             </div>
 
             <div>
@@ -160,7 +178,11 @@ export default function RegisterPage() {
                     <circle cx="12" cy="12" r="3" />
                   </svg>
                 </button>
+                {errors.password && (
+                  <span className={errClass}>{errors.password.message}</span>
+                )}
               </div>
+
               <div className="mt-2 h-1 rounded-full bg-white/[0.07] overflow-hidden">
                 <div
                   id="strength-fill"
@@ -196,11 +218,16 @@ export default function RegisterPage() {
                   className="aura-input w-full bg-aura-surf2 border border-white/[0.07] rounded-2xl pl-11 pr-4 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200"
                 />
               </div>
+              {errors.confirmPassword && (
+                <span className={errClass}>
+                  {errors.confirmPassword.message}
+                </span>
+              )}
             </div>
             <button
               className="bg-aura-p1 hover:bg-aura-p2 hover:cursor-pointer w-full mt-6 rounded-2xl py-3.5 text-[15px] font-semibold  flex items-center justify-center gap-2 text-white"
               type="submit">
-              Create Account
+              {isPending ? "Creating account..." : "Create account"}
               <svg
                 width="15"
                 height="15"

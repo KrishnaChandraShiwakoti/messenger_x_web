@@ -5,6 +5,7 @@ import { LoginFormData, loginSchema } from "@/app/(auth)/_components/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { handleLoginUser } from "@/lib/actions/auth-action";
 
 export default function LoginPage() {
   const [isPending, startTransition] = useTransition();
@@ -23,16 +24,18 @@ export default function LoginPage() {
     // and false after it finishes
     setError("");
     startTransition(async () => {
-      //    try {
-      //      const result = ;
-      //      if (result.success) {
-      //        router.push("/login");
-      //      } else {
-      //        setError(result.message || "Registration failed");
-      //      }
-      //    } catch (error: any) {
-      //      setError(error?.message || "Registration failed");
-      //    }
+      console.log("Submitting login form with data:", data);
+      try {
+        const result = await handleLoginUser(data);
+        if (result.success) {
+          router.push("/dashboard");
+        } else {
+          setError(result.message || "Login failed");
+        }
+      } catch (error: any) {
+        console.log(error?.message);
+        setError(error?.message || "Login failed");
+      }
     });
   };
   return (
@@ -57,7 +60,7 @@ export default function LoginPage() {
             className="flex flex-col gap-4"
             onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-aura-sub mb-2">
+              <label className="block text-[11px] font-semibold uppercase tracking-wider text-white mb-2">
                 Email address
               </label>
               <div className="relative">
@@ -77,7 +80,7 @@ export default function LoginPage() {
                   type="email"
                   {...register("email")}
                   placeholder="Enter your email"
-                  className="aura-input w-full bg-aura-surf2 border border-white/[0.07] rounded-2xl pl-11 pr-4 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200"
+                  className="aura-input w-full bg-aura-surf2 border border-white/[0.07] rounded-2xl pl-11 pr-4 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200 focus:placeholder-white"
                 />
               </div>
             </div>
@@ -103,7 +106,7 @@ export default function LoginPage() {
                   type="password"
                   {...register("password")}
                   placeholder="Enter your password"
-                  className="aura-input w-full bg-aura-surf2 border border-white/[0.07] rounded-2xl pl-11 pr-11 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200"
+                  className="aura-input w-full bg-aura-surf2 border border-white/[0.07] rounded-2xl pl-11 pr-11 py-3.5 text-[14.5px]  placeholder-aura-muted transition-all duration-200 focus:placeholder-white"
                 />
                 <button className="absolute right-4 top-1/2 -translate-y-1/2 text-aura-muted hover:text-aura-sub transition-colors">
                   <svg
