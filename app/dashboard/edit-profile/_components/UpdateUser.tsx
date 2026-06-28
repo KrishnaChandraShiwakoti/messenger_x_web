@@ -53,7 +53,6 @@ export default function UpdateUserForm({ user }: { user: any }) {
   const [error, setError] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
 
   const handleImageChange = (
     file: File | undefined,
