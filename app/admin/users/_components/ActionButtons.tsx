@@ -1,0 +1,16 @@
+export const iconActionBtn = (danger = false): React.CSSProperties => ({
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 5,
+  padding: "5px 10px",
+  borderRadius: 7,
+  border: `1px solid ${danger ? "rgba(220,38,38,0.20)" : "rgba(79,70,229,0.14)"}`,
+  background: danger ? "rgba(220,38,38,0.06)" : "#F0F2FA",
+  color: danger ? "#DC2626" : "#5B5F82",
+  fontSize: 12,
+  fontWeight: 600,
+  cursor: "pointer",
+  fontFamily: "'Manrope', sans-serif",
+  transition: "all 0.15s",
+  textDecoration: "none",
+});
