@@ -1,7 +1,8 @@
 @import "tailwindcss";
+
 @theme {
-  /* auth */
-  --color-aura-bg: "#07080F";
+  /* ── Dark "aura" tokens (kept from your auth screens) ── */
+  --color-aura-bg: #07080f;
   --color-aura-surface: #0e1020;
   --color-aura-surf2: #37383f;
   --color-aura-surf3: #1c2038;
@@ -13,7 +14,8 @@
   --color-aura-muted: #b7b9cc;
   --color-aura-danger: #ef4444;
   --color-aura-success: #10b981;
-  /* Backgrounds */
+
+  /* ── Light-mode admin panel backgrounds ── */
   --color-bg: #fafbff;
   --color-bg-alt: #f3f5fc;
   --color-surface: #ffffff;
@@ -21,31 +23,48 @@
   --color-surface-3: #e8eaf5;
   --color-surface-4: #dde0f0;
 
-  /* Text */
+  /* ── Text ── */
   --color-text-main: #0d0e1a;
   --color-text-sub: #5b5f82;
   --color-text-muted: #a0a5c8;
 
-  /* Brand */
+  /* ── Brand ── */
   --color-primary: #4338ca;
   --color-secondary: #7c3aed;
   --color-accent: #0ea5e9;
 
-  /* States */
+  /* ── States ── */
   --color-success: #059669;
   --color-danger: #dc2626;
   --color-warning: #d97706;
 
-  /* Radius */
+  /* ── Borders (this token was missing — required by border-hairline utilities) ── */
+  --color-hairline: rgba(79, 70, 229, 0.14);
+  --color-hairline-strong: rgba(79, 70, 229, 0.22);
+
+  /* ── Soft tint backgrounds for badges/chips ── */
+  --color-primary-soft: rgba(67, 56, 202, 0.1);
+  --color-success-soft: rgba(5, 150, 105, 0.08);
+  --color-danger-soft: rgba(220, 38, 38, 0.08);
+  --color-warning-soft: rgba(217, 119, 6, 0.08);
+
+  /* ── Radius ── */
   --radius-card: 12px;
 
-  /* Shadows */
+  /* ── Shadows (added "glow" — this token was missing) ── */
   --shadow-sm: 0 2px 16px rgba(67, 56, 202, 0.08);
   --shadow-md: 0 4px 28px rgba(67, 56, 202, 0.13);
   --shadow-lg: 0 12px 48px rgba(67, 56, 202, 0.16);
+  --shadow-glow: 0 4px 16px rgba(67, 56, 202, 0.22);
 
+  /* ── Fonts ── */
+  --font-sans: "Manrope", sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+
+  /* ── Animations ── */
   --animate-float: float 3s ease-in-out infinite;
   --animate-spin-fast: spin 0.75s linear infinite;
+
   @keyframes float {
     0%,
     100% {
@@ -61,10 +80,12 @@
     }
   }
 }
+
 :root {
   --background: #ffffff;
   --foreground: #111111;
 }
+
 html,
 body {
   height: 100%;
@@ -73,4 +94,5 @@ body {
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-sans);
 }

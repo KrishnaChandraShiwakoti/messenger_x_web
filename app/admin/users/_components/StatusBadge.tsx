@@ -1,32 +1,12 @@
-import { STATUS_STYLES } from "../_utils/constant";
+import { STATUS_CLASS } from "../_utils/constant";
 
 export function StatusBadge({ status }: { status?: string }) {
-  const s = STATUS_STYLES[status ?? "active"] ?? STATUS_STYLES.active;
+  const s = STATUS_CLASS[status ?? "active"] ?? STATUS_CLASS.active;
   return (
     <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 5,
-        padding: "2px 9px",
-        borderRadius: 20,
-        fontSize: 11,
-        fontWeight: 600,
-        background: s.bg,
-        color: s.color,
-        border: `1px solid ${s.border}`,
-        fontFamily: "'Manrope', sans-serif",
-      }}>
-      <span
-        style={{
-          width: 6,
-          height: 6,
-          borderRadius: "50%",
-          background: s.dot,
-          flexShrink: 0,
-        }}
-      />
-      {s.label}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold capitalize ${s.wrap}`}>
+      <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
+      {status ?? "active"}
     </span>
   );
 }

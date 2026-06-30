@@ -4,13 +4,26 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { handleDeleteUser } from "@/lib/actions/admin/user-action";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaTrash, FaExclamationTriangle } from "react-icons/fa";
 import { getDisplayName } from "../_utils/helpers";
 import { Toolbar } from "./Toolbar";
-import { S } from "./styles";
 import Pagination from "./Pagination";
 import { useRouter, useSearchParams } from "next/navigation";
 import { UserTableBody } from "./UserTableBody";
+
+const IconX = () => (
+  <svg
+    className="h-3.5 w-3.5"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    aria-hidden="true">
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
 
 function DeleteModal({
   user,
@@ -27,275 +40,82 @@ function DeleteModal({
   const name = getDisplayName(user);
 
   return (
-    /* Faux modal viewport — normal-flow div so it contributes layout height */
     <div
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(13,14,26,0.45)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 9999,
-        backdropFilter: "blur(3px)",
-      }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-text-main/45 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="del-modal-title">
-      <div
-        style={{
-          background: "#fff",
-          border: "1px solid rgba(79,70,229,0.14)",
-          borderRadius: 16,
-          width: "100%",
-          maxWidth: 400,
-          boxShadow:
-            "0 20px 60px rgba(67,56,202,0.15), 0 4px 16px rgba(0,0,0,0.08)",
-          overflow: "hidden",
-        }}>
+      <div className="w-full max-w-sm overflow-hidden rounded-[var(--radius-card)] border border-hairline bg-surface shadow-[var(--shadow-md)]">
         {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            padding: "16px 20px",
-            borderBottom: "1px solid rgba(79,70,229,0.10)",
-          }}>
-          <div
-            style={{
-              width: 34,
-              height: 34,
-              borderRadius: 10,
-              background: "rgba(220,38,38,0.10)",
-              border: "1px solid rgba(220,38,38,0.22)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#DC2626"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true">
-              <polyline points="3 6 5 6 21 6" />
-              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-              <path d="M10 11v6" />
-              <path d="M14 11v6" />
-              <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-            </svg>
+        <div className="flex items-center gap-3 border-b border-hairline px-5 py-4">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-danger/25 bg-danger-soft text-danger">
+            <FaTrash />
           </div>
           <span
             id="del-modal-title"
-            style={{
-              fontSize: 15,
-              fontWeight: 600,
-              color: "#0D0E1A",
-              flex: 1,
-              fontFamily: "'Manrope', sans-serif",
-            }}>
+            className="flex-1 text-[15px] font-semibold text-text-main">
             Delete user
           </span>
           <button
             onClick={onClose}
             aria-label="Close"
-            style={{
-              width: 28,
-              height: 28,
-              borderRadius: 7,
-              border: "1px solid rgba(79,70,229,0.14)",
-              background: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#A0A5C8",
-            }}>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              aria-hidden="true">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            className="flex h-7 w-7 items-center justify-center rounded-md border border-hairline text-text-muted transition-colors hover:bg-surface-2 hover:text-text-main">
+            <IconX />
           </button>
         </div>
 
         {/* Body */}
-        <div style={{ padding: "24px 24px 0", textAlign: "center" }}>
-          <div
-            style={{
-              width: 52,
-              height: 52,
-              borderRadius: "50%",
-              background: "rgba(220,38,38,0.08)",
-              border: "1px solid rgba(220,38,38,0.20)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "0 auto 14px",
-            }}>
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#DC2626"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true">
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-              <line x1="12" y1="9" x2="12" y2="13" />
-              <line x1="12" y1="17" x2="12.01" y2="17" />
-            </svg>
+        <div className="px-6 pt-6 text-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-danger/20 bg-danger-soft text-danger">
+            <FaExclamationTriangle />
           </div>
-
-          <p
-            style={{
-              fontSize: 14,
-              color: "#0D0E1A",
-              marginBottom: 8,
-              fontFamily: "'Manrope', sans-serif",
-            }}>
-            Delete <strong style={{ fontWeight: 700 }}>{name}</strong>?
+          <p className="mb-2 text-sm text-text-main">
+            Delete <strong className="font-bold">{name}</strong>?
           </p>
-          <p
-            style={{
-              fontSize: 13,
-              color: "#5B5F82",
-              lineHeight: 1.6,
-              marginBottom: 18,
-              fontFamily: "'Manrope', sans-serif",
-            }}>
-            This action is permanent. The user account, messages, and all
+          <p className="mb-5 text-[13px] leading-relaxed text-text-sub">
+            This action is permanent. The user&apos;s account, messages, and all
             associated data will be removed.
           </p>
-
-          {/* Warning note */}
-          <div
-            style={{
-              display: "flex",
-              gap: 8,
-              alignItems: "flex-start",
-              padding: "10px 12px",
-              borderRadius: 10,
-              marginBottom: 4,
-              background: "rgba(220,38,38,0.06)",
-              border: "1px solid rgba(220,38,38,0.18)",
-            }}>
+          <div className="flex items-start gap-2 rounded-lg border border-danger/20 bg-danger-soft px-3 py-2.5 text-left">
             <svg
-              width="14"
-              height="14"
+              className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-danger"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#DC2626"
+              stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
-              aria-hidden="true"
-              style={{ flexShrink: 0, marginTop: 1 }}>
+              aria-hidden="true">
               <rect x="3" y="11" width="18" height="11" rx="2" />
               <path d="M7 11V7a5 5 0 0 1 10 0v4" />
             </svg>
-            <span
-              style={{
-                fontSize: 12,
-                color: "#991B1B",
-                fontFamily: "'Manrope', sans-serif",
-              }}>
+            <span className="text-xs text-danger">
               This requires admin authentication and cannot be undone.
             </span>
           </div>
         </div>
 
         {/* Footer */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: 8,
-            padding: "16px 20px",
-            borderTop: "1px solid rgba(79,70,229,0.10)",
-            marginTop: 16,
-          }}>
+        <div className="mt-4 flex justify-end gap-2 border-t border-hairline px-5 py-4">
           <button
             onClick={onClose}
-            style={{
-              padding: "8px 18px",
-              borderRadius: 10,
-              border: "1px solid rgba(79,70,229,0.18)",
-              background: "#F0F2FA",
-              color: "#5B5F82",
-              fontSize: 13,
-              fontWeight: 600,
-              cursor: "pointer",
-              fontFamily: "'Manrope', sans-serif",
-              transition: "all 0.15s",
-            }}>
+            className="rounded-lg border border-hairline-strong bg-surface-2 px-4 py-2 text-[13px] font-semibold text-text-sub transition-colors hover:bg-surface-3">
             Cancel
           </button>
           <button
             onClick={onConfirm}
             disabled={isPending}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              padding: "8px 18px",
-              borderRadius: 10,
-              border: "none",
-              background: isPending ? "rgba(220,38,38,0.5)" : "#DC2626",
-              color: "#fff",
-              fontSize: 13,
-              fontWeight: 600,
-              cursor: isPending ? "not-allowed" : "pointer",
-              fontFamily: "'Manrope', sans-serif",
-              opacity: isPending ? 0.7 : 1,
-              transition: "all 0.15s",
-            }}>
+            className="flex items-center gap-1.5 rounded-lg bg-danger px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60">
             {isPending ? (
               <>
-                <span
-                  style={{
-                    width: 14,
-                    height: 14,
-                    borderRadius: "50%",
-                    border: "2px solid rgba(255,255,255,0.35)",
-                    borderTopColor: "#fff",
-                    display: "inline-block",
-                    animation: "spin 0.7s linear infinite",
-                  }}
-                />
+                <span className="h-3.5 w-3.5 animate-spin-fast rounded-full border-2 border-white/30 border-t-white" />
                 Deleting…
               </>
             ) : (
               <>
-                <svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true">
-                  <polyline points="3 6 5 6 21 6" />
-                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                </svg>
+                <FaTrash />
                 Delete permanently
               </>
             )}
@@ -305,7 +125,6 @@ function DeleteModal({
     </div>
   );
 }
-
 export default function UserTable({
   data,
   pagination,
@@ -345,22 +164,21 @@ export default function UserTable({
   };
 
   return (
-    <div style={S.page}>
+    <div className="min-h-screen bg-bg px-6 py-8 font-sans text-text-main">
       <div style={{ maxWidth: 1160, margin: "0 auto" }}>
         {/* ── Page header ── */}
-        <div style={S.headerRow} className="relative">
+        <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
           <div className="flex flex-col gap-2 ">
             <Link
               href="/admin/users/create"
-              style={S.addBtn}
-              className="aura-add-btn right-0">
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-primary to-secondary px-5 py-2.5 text-sm font-bold text-white shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5">
               <FaPlus /> Add user
             </Link>
           </div>
         </div>
 
         {/* ── Table card ── */}
-        <div style={S.card}>
+        <div className="overflow-hidden rounded-[var(--radius-card)] border border-hairline bg-surface shadow-[var(--shadow-sm)]">
           <Toolbar search={search} limit={limit} setQuery={setQuery} />
           {/* Table */}
           <UserTableBody

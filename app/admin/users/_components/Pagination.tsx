@@ -2,7 +2,6 @@
 
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { pageRange } from "../_utils/pagination";
-import { S } from "./styles";
 
 interface PaginationProps {
   page: number;
@@ -22,69 +21,53 @@ export default function Pagination({
   if (totalPages === 0) return null;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "12px 20px",
-        borderTop: "1px solid rgba(79,70,229,0.09)",
-        background: "#FAFBFF",
-        flexWrap: "wrap",
-        gap: 10,
-      }}>
-      <span style={{ fontSize: 12, color: "#A0A5C8", fontWeight: 500 }}>
+    <div className="flex flex-wrap items-center justify-between gap-2.5 border-t border-hairline bg-bg px-5 py-3">
+      <span className="text-xs font-medium text-text-muted">
         Showing{" "}
-        <strong style={{ color: "#5B5F82" }}>
-          {Math.min((page - 1) * limit + 1, totalPages * limit)}–
-          {Math.min(page * limit, totalPages * limit)}
+        <strong className="text-text-sub">
+          {Math.min((page - 1) * limit + 1, totalPages)}–
+          {Math.min(page * limit, totalPages).toLocaleString()}
         </strong>{" "}
         of{" "}
-        <strong style={{ color: "#5B5F82" }}>
-          {(totalPages * limit).toLocaleString()}
-        </strong>{" "}
+        <strong className="text-text-sub">{totalPages.toLocaleString()}</strong>{" "}
         users
       </span>
 
-      <nav
-        aria-label="Pagination"
-        style={{ display: "flex", gap: 4, alignItems: "center" }}>
-        {/* Previous */}
+      <nav aria-label="Pagination" className="flex items-center gap-1">
         <button
           disabled={page <= 1}
           onClick={() => setQuery({ page: page - 1 })}
-          style={S.pgBtn(false, page <= 1)}>
+          aria-label="Previous page"
+          className="flex h-8 min-w-8 items-center justify-center rounded-md border border-hairline-strong bg-surface text-text-sub transition-colors hover:bg-surface-2 disabled:cursor-not-allowed disabled:opacity-40">
           <FaChevronLeft />
         </button>
 
-        {/* Page Numbers */}
         {range.map((p, i) =>
           p === "…" ? (
-            <span
-              key={i}
-              style={{
-                padding: "0 4px",
-                color: "#A0A5C8",
-                fontSize: 12,
-              }}>
+            <span key={`e-${i}`} className="px-1 text-xs text-text-muted">
               …
             </span>
           ) : (
             <button
               key={p}
               onClick={() => setQuery({ page: p })}
-              style={S.pgBtn(p === page)}
-              aria-current={p === page ? "page" : undefined}>
+              aria-label={`Page ${p}`}
+              aria-current={p === page ? "page" : undefined}
+              className={`flex h-8 min-w-8 items-center justify-center rounded-md px-2 text-xs font-semibold transition-all ${
+                p === page
+                  ? "bg-gradient-to-br from-primary to-secondary text-white shadow-[var(--shadow-glow)]"
+                  : "border border-hairline-strong bg-surface text-text-sub hover:bg-surface-2"
+              }`}>
               {p}
             </button>
           ),
         )}
 
-        {/* Next */}
         <button
           disabled={page >= totalPages}
           onClick={() => setQuery({ page: page + 1 })}
-          style={S.pgBtn(false, page >= totalPages)}>
+          aria-label="Next page"
+          className="flex h-8 min-w-8 items-center justify-center rounded-md border border-hairline-strong bg-surface text-text-sub transition-colors hover:bg-surface-2 disabled:cursor-not-allowed disabled:opacity-40">
           <FaChevronRight />
         </button>
       </nav>

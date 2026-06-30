@@ -1,4 +1,12 @@
-import { AVATAR_COLORS } from "./constant";
+/* ─── Helpers ──────────────────────────────────────────────────── */
+const AVATAR_BG = [
+  "from-primary/80 to-primary",
+  "from-secondary/80 to-secondary",
+  "from-accent/80 to-accent",
+  "from-danger/80 to-danger",
+  "from-warning/80 to-warning",
+  "from-success/80 to-success",
+];
 
 export function getDisplayName(u: User): string {
   return u.fullName || `${u.firstName ?? ""} ${u.lastName ?? ""}`.trim();
@@ -12,10 +20,10 @@ export function getInitials(u: User): string {
   return name.slice(0, 2).toUpperCase();
 }
 
-export function avatarColor(id: string): string {
+export function avatarGradient(id: string): string {
   let n = 0;
   for (let i = 0; i < id.length; i++) n += id.charCodeAt(i);
-  return AVATAR_COLORS[n % AVATAR_COLORS.length];
+  return AVATAR_BG[n % AVATAR_BG.length];
 }
 
 export function formatDate(iso?: string): string {

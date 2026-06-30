@@ -1,48 +1,20 @@
-export const AVATAR_COLORS = [
-  "#4338CA",
-  "#7C3AED",
-  "#0891B2",
-  "#DC2626",
-  "#D97706",
-  "#059669",
-  "#DB2777",
-  "#0369A1",
-];
-
-export const ROLE_STYLES: Record<
-  string,
-  { bg: string; color: string; border: string; label: string }
-> = {
-  admin: {
-    bg: "rgba(67,56,202,0.10)",
-    color: "#4338CA",
-    border: "rgba(67,56,202,0.25)",
-    label: "Admin",
-  },
-  user: {
-    bg: "rgba(91,95,130,0.08)",
-    color: "#5B5F82",
-    border: "rgba(91,95,130,0.20)",
-    label: "User",
-  },
+export const ROLE_CLASS: Record<string, string> = {
+  admin: "bg-primary-soft text-primary border-primary/25",
+  moderator: "bg-warning-soft text-warning border-warning/25",
+  user: "bg-surface-2 text-text-sub border-hairline-strong",
 };
 
-export const STATUS_STYLES: Record<
-  string,
-  { bg: string; color: string; border: string; dot: string; label: string }
-> = {
+export const STATUS_CLASS: Record<string, { wrap: string; dot: string }> = {
   active: {
-    bg: "rgba(5,150,105,0.08)",
-    color: "#065F46",
-    border: "rgba(5,150,105,0.22)",
-    dot: "#059669",
-    label: "Active",
+    wrap: "bg-success-soft text-success border-success/25",
+    dot: "bg-success",
+  },
+  pending: {
+    wrap: "bg-warning-soft text-warning border-warning/25",
+    dot: "bg-warning",
   },
   inactive: {
-    bg: "rgba(220,38,38,0.08)",
-    color: "#991B1B",
-    border: "rgba(220,38,38,0.22)",
-    dot: "#DC2626",
-    label: "Inactive",
+    wrap: "bg-danger-soft text-danger border-danger/25",
+    dot: "bg-danger",
   },
 };

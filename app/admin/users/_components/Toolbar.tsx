@@ -1,5 +1,4 @@
 import { FaSearch } from "react-icons/fa";
-import { S } from "./styles";
 
 interface ToolbarProps {
   search: string;
@@ -8,8 +7,6 @@ interface ToolbarProps {
 }
 
 export function Toolbar({ limit, setQuery, search }: ToolbarProps) {
-  /* ── Query helpers ─────────────────────────────────────────── */
-
   const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const value = (new FormData(e.currentTarget).get("search") as string) ?? "";
@@ -17,85 +14,47 @@ export function Toolbar({ limit, setQuery, search }: ToolbarProps) {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        flexWrap: "wrap",
-        padding: "14px 20px",
-        borderBottom: "1px solid rgba(79,70,229,0.09)",
-        background: "#FAFBFF",
-      }}>
-      {/* Search */}
-      <form
-        onSubmit={onSearch}
-        style={{
-          position: "relative",
-          display: "flex",
-          alignItems: "center",
-        }}>
-        <span
-          style={{
-            position: "absolute",
-            left: 10,
-            color: "#A0A5C8",
-            pointerEvents: "none",
-          }}>
+    <div className="flex flex-wrap items-center gap-2.5 border-b border-hairline bg-bg px-5 py-3.5">
+      <form onSubmit={onSearch} className="relative flex items-center">
+        <span className="pointer-events-none absolute left-2.5 text-text-muted">
           <FaSearch />
         </span>
         <input
           name="search"
           defaultValue={search}
           placeholder="Search name or email…"
-          className="search-input"
-          style={S.searchInput}
           aria-label="Search users"
+          className="h-9 w-full max-w-[260px] rounded-lg border border-hairline-strong bg-surface pl-9 pr-3 text-[13px] text-text-main outline-none transition-colors placeholder:text-text-muted focus:border-primary focus:ring-2 focus:ring-primary/15"
         />
       </form>
 
-      {/* Role filter */}
-      <div style={{ position: "relative" }}>
-        <select
-          defaultValue=""
-          onChange={(e) => setQuery({ role: e.target.value, page: 1 })}
-          style={S.select}
-          aria-label="Filter by role">
-          <option value="">All roles</option>
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
-        </select>
-      </div>
+      <select
+        defaultValue=""
+        onChange={(e) => setQuery({ role: e.target.value, page: 1 })}
+        aria-label="Filter by role"
+        className="h-9 cursor-pointer rounded-lg border border-hairline-strong bg-surface px-3 text-[13px] text-text-main outline-none focus:border-primary">
+        <option value="">All roles</option>
+        <option value="admin">Admin</option>
+        <option value="user">User</option>
+      </select>
 
-      {/* Status filter */}
-      <div style={{ position: "relative" }}>
-        <select
-          defaultValue=""
-          onChange={(e) => setQuery({ status: e.target.value, page: 1 })}
-          style={S.select}
-          aria-label="Filter by status">
-          <option value="">All statuses</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
-      </div>
+      <select
+        defaultValue=""
+        onChange={(e) => setQuery({ status: e.target.value, page: 1 })}
+        aria-label="Filter by status"
+        className="h-9 cursor-pointer rounded-lg border border-hairline-strong bg-surface px-3 text-[13px] text-text-main outline-none focus:border-primary">
+        <option value="">All statuses</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+      </select>
 
-      {/* Rows per page — right-aligned */}
-      <div
-        style={{
-          marginLeft: "auto",
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-        }}>
-        <span style={{ fontSize: 12, color: "#A0A5C8", fontWeight: 500 }}>
-          Rows
-        </span>
+      <div className="ml-auto flex items-center gap-2">
+        <span className="text-xs font-medium text-text-muted">Rows</span>
         <select
           value={limit}
           onChange={(e) => setQuery({ limit: e.target.value, page: 1 })}
-          style={{ ...S.select, width: 70 }}
-          aria-label="Rows per page">
+          aria-label="Rows per page"
+          className="h-9 w-[68px] cursor-pointer rounded-lg border border-hairline-strong bg-surface px-2 text-[13px] text-text-main outline-none focus:border-primary">
           {[5, 10, 20, 50].map((n) => (
             <option key={n} value={n}>
               {n}

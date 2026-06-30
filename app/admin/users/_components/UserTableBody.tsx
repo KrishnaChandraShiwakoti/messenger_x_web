@@ -1,12 +1,9 @@
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import { S } from "./styles";
-import { getDisplayName } from "../_utils/helpers";
-import page from "../page";
+import { formatDate, getDisplayName } from "../_utils/helpers";
 import { Avatar } from "./Avatar";
 import { StatusBadge } from "./StatusBadge";
 import { RoleBadge } from "./RoleBadge";
 import Link from "next/link";
-import { iconActionBtn } from "./ActionButtons";
 export function UserTableBody({
   users,
   loading,
@@ -21,32 +18,24 @@ export function UserTableBody({
   setTarget: (u: User | null) => void;
 }) {
   return (
-    <div style={{ overflowX: "auto" }}>
-      <table
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          tableLayout: "fixed",
-        }}>
+    <div className="overflow-x-auto">
+      <table className="w-full table-fixed border-collapse text-left text-sm">
         <colgroup>
-          <col style={{ width: 48 }} />
-          <col style={{ width: "22%" }} />
-          <col style={{ width: "26%" }} />
-          <col style={{ width: "16%" }} />
-          <col style={{ width: "10%" }} />
-          <col style={{ width: "20%" }} />
-          <col style={{ width: 120 }} />
+          <col className="w-10" />
+          <col className="w-[22%]" />
+          <col className="w-[20%]" />
+          <col className="w-[16%]" />
+          <col className="w-[10%]" />
+          <col className="w-[18%]" />
+          <col className="w-28" />
         </colgroup>
         <thead>
-          <tr>
+          <tr className="border-b border-hairline bg-surface-2 w-[100%] text-[11px] font-semibold uppercase tracking-wide text-text-sub">
             {["#", "Name", "Email", "Phone", "Role", "Status", "Actions"].map(
               (h, i) => (
                 <th
                   key={h}
-                  style={{
-                    ...S.th,
-                    textAlign: i === 7 ? "right" : "left",
-                  }}>
+                  className={`px-4 py-2.5 text-[10px] font-bold uppercase tracking-wide text-text-muted ${i === 7 ? "text-right" : "text-left"}`}>
                   {h}
                 </th>
               ),
@@ -54,10 +43,10 @@ export function UserTableBody({
           </tr>
         </thead>
         <tbody>
-          {/* Loading state */}
+          {/* //loading state */}
           {loading && (
             <tr>
-              <td colSpan={8} style={{ ...S.td, textAlign: "center" }}>
+              <td colSpan={7} className="px-4 py-6 text-center text-text-muted">
                 Loading...
               </td>
             </tr>
@@ -66,13 +55,12 @@ export function UserTableBody({
           {/* Empty state */}
           {!loading && users.length === 0 && (
             <tr>
-              <td colSpan={8} style={{ ...S.td, textAlign: "center" }}>
+              <td colSpan={8} className="px-4 py-6 text-center text-text-muted">
                 No users found.
               </td>
             </tr>
           )}
 
-          {/* Data rows */}
           {!loading &&
             users.map((u, idx) => {
               const name = getDisplayName(u);
@@ -80,50 +68,20 @@ export function UserTableBody({
               return (
                 <tr
                   key={u._id}
-                  className="aura-row"
-                  style={{
-                    background: "#fff",
-                    transition: "background 0.1s",
-                  }}>
-                  {/* # */}
-                  <td
-                    style={{
-                      ...S.td,
-                      color: "#C8CAE0",
-                      fontSize: 12,
-                      fontWeight: 500,
-                    }}>
+                  className="border-b border-hairline transition-colors hover:bg-surface-2">
+                  <td className="px-4 py-3 text-xs font-medium text-text-muted">
                     {rowNum}
                   </td>
 
-                  {/* Name + avatar */}
-                  <td style={S.td}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 10,
-                      }}>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2.5">
                       <Avatar user={u} />
-                      <div style={{ minWidth: 0 }}>
-                        <div
-                          style={{
-                            fontWeight: 600,
-                            color: "#0D0E1A",
-                            fontSize: 13,
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}>
+                      <div className="min-w-0">
+                        <div className="truncate text-[13px] font-semibold text-text-main">
                           {name}
                         </div>
                         {u.phoneNumber && (
-                          <div
-                            style={{
-                              fontSize: 11,
-                              color: "#A0A5C8",
-                              marginTop: 1,
-                            }}>
+                          <div className="text-[11px] text-text-muted">
                             {u.phoneNumber}
                           </div>
                         )}
@@ -131,64 +89,43 @@ export function UserTableBody({
                     </div>
                   </td>
 
-                  {/* Email */}
-                  <td
-                    style={{
-                      ...S.td,
-                      color: "#5B5F82",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}>
+                  <td className="truncate px-4 py-3 text-text-sub">
                     {u.email}
                   </td>
-
-                  {/* Phone */}
-                  <td style={{ ...S.td, color: "#5B5F82" }}>
+                  <td className="px-4 py-3 text-text-sub">
                     {u.phoneNumber || (
-                      <span style={{ color: "#C8CAE0" }}>—</span>
+                      <span className="text-text-muted">—</span>
                     )}
                   </td>
-
-                  {/* Role */}
-                  <td style={S.td}>
+                  <td className="px-4 py-3">
                     <RoleBadge role={u.role} />
                   </td>
-
-                  {/* Status */}
-                  <td style={S.td}>
+                  <td className="px-4 py-3">
                     <StatusBadge status={u.status} />
                   </td>
+                  <td className="px-4 py-3 text-xs text-text-muted">
+                    {formatDate(u.createdAt)}
+                  </td>
 
-                  {/* Actions */}
-                  <td style={{ ...S.td, textAlign: "right" }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "flex-end",
-                        gap: 5,
-                      }}>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center justify-end gap-1.5">
                       <Link
                         href={`/admin/users/${u._id}`}
-                        style={iconActionBtn(false)}
-                        className="aura-action-btn"
-                        title={`View ${name}`}>
+                        title={`View ${name}`}
+                        className="inline-flex items-center gap-1 rounded-md border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-semibold text-text-sub transition-all hover:-translate-y-px hover:opacity-90">
                         <FaEye /> View
                       </Link>
                       <Link
                         href={`/admin/users/${u._id}/edit`}
-                        style={iconActionBtn(false)}
-                        className="aura-action-btn"
-                        title={`Edit ${name}`}>
+                        title={`Edit ${name}`}
+                        className="inline-flex items-center gap-1 rounded-md border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-semibold text-text-sub transition-all hover:-translate-y-px hover:opacity-90">
                         <FaEdit /> Edit
                       </Link>
                       <button
                         onClick={() => setTarget(u)}
-                        style={iconActionBtn(true)}
-                        className="aura-action-btn del-btn-row"
                         title={`Delete ${name}`}
-                        aria-label={`Delete ${name}`}>
+                        aria-label={`Delete ${name}`}
+                        className="inline-flex items-center rounded-md border border-danger/20 bg-danger-soft px-2 py-1 text-danger transition-all hover:-translate-y-px hover:opacity-90">
                         <FaTrash />
                       </button>
                     </div>
