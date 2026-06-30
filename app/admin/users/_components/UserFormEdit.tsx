@@ -61,6 +61,8 @@ export default function UserFormEdit({ user }: { user?: any }) {
     setError("");
     startTransition(async () => {
       try {
+        console.log("submitting data:" + JSON.stringify(data));
+
         const formdata = new FormData();
         formdata.append("fullName", data.fullName || "");
         formdata.append("email", data.email || "");
@@ -73,6 +75,7 @@ export default function UserFormEdit({ user }: { user?: any }) {
         router.push("/admin/users");
         router.refresh();
       } catch (err: any) {
+        console.error("Error updating user:", err);
         toast.error(err?.message);
         setError(err?.message || "Something went wrong");
       }
@@ -81,7 +84,10 @@ export default function UserFormEdit({ user }: { user?: any }) {
 
   return (
     <div className="w-full max-w-md font-sans">
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form
+        onSubmit={handleSubmit(onSubmit, (errors) =>
+          console.log("Validation errors:", errors),
+        )}>
         {/* Global error banner */}
         {error && (
           <div className="mb-6 flex items-center gap-2.5 rounded-lg border border-danger/25 bg-danger-soft px-4 py-3 text-sm text-danger">

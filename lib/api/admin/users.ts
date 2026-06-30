@@ -38,11 +38,6 @@ export const updateUserById = async (id: string, data: any) => {
     const response = await axiosInstance.put(
       API.ADMIN.USERS.UPDATE_BY_ID(id),
       data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data", // multipart/form-data for file upload
-        },
-      },
     );
     return response.data; // response body
   } catch (error: Error | any) {

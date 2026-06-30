@@ -9,16 +9,14 @@ const ACCEPTED_IMAGE_TYPES = [
 ];
 
 const base = {
-  firstName: z
+  fullName: z
     .string("Must be a valid string")
     .min(2, { message: "Minimum 2 characters" }),
-  lastName: z
-    .string("Must be a valid string")
-    .min(2, { message: "Minimum 2 characters" }),
+
   email: z.email({ message: "Invalid email address" }),
-  username: z
-    .string("Must be a valid string")
-    .min(3, { message: "Minimum 3 characters" }),
+  phoneNumber: z
+    .string("Must be a valid Number")
+    .min(10, { message: "Minimum 10 characters" }),
   role: z.enum(["user", "admin"]),
 };
 

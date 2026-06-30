@@ -86,7 +86,10 @@ export default function UserForm() {
 
   return (
     <div className="w-full max-w-md font-sans">
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form
+        onSubmit={handleSubmit(onSubmit, (errors) =>
+          console.log("Validation errors:", errors),
+        )}>
         {/* Global error banner */}
         {error && (
           <div className="mb-6 flex items-center gap-2.5 rounded-lg border border-danger/25 bg-danger-soft px-4 py-3 text-sm text-danger">
@@ -281,7 +284,6 @@ export default function UserForm() {
         {/* Submit */}
         <button
           type="submit"
-          disabled={isSubmitting || isPending}
           className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary to-secondary text-sm font-bold text-white shadow-[var(--shadow-glow)] transition-all hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0">
           {isPending || isSubmitting ? (
             <>
