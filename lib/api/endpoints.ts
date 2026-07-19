@@ -7,6 +7,21 @@ export const API = {
     UPDATE: "/api/v1/users/update",
     UPDATE_PASSWORD: "/api/v1/users/change-password",
   },
+  USERS: {
+    SEARCH: "/api/v1/users/search",
+  },
+  CHATS: {
+    LIST: "/api/v1/chats",
+    DIRECT: "/api/v1/chats/direct",
+    GROUP: "/api/v1/chats/group",
+    BY_ID: (id: string) => `/api/v1/chats/${id}`,
+  },
+  MESSAGES: {
+    SEND: "/api/v1/messages",
+    READ: "/api/v1/messages/read",
+    BY_CHAT: (chatId: string) => `/api/v1/messages/${chatId}`,
+    DELETE_BY_ID: (id: string) => `/api/v1/messages/${id}`,
+  },
   ADMIN: {
     USERS: {
       GET_ALL: "/api/v1/admin/users",
