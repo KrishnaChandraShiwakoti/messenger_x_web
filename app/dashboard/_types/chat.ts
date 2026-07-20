@@ -39,6 +39,10 @@ export interface ChatMessage {
   type: "text" | "image" | "video" | "audio" | "file";
   content?: EncryptedPayload;
   attachment?: MessageAttachment;
+  // Encryption scheme identifier ("box.v1" = nacl.box key-wrap + nacl.secretbox
+  // content, the scheme lib/crypto/e2ee.ts implements). Lets a future protocol
+  // change be told apart from messages encrypted under this one.
+  algo?: string;
   keys: MessageKey[];
   replyTo?: string;
   deliveredTo: Receipt[];
