@@ -19,8 +19,12 @@ export const API = {
   MESSAGES: {
     SEND: "/api/v1/messages",
     READ: "/api/v1/messages/read",
+    CALLS_HISTORY: "/api/v1/messages/calls/history",
     BY_CHAT: (chatId: string) => `/api/v1/messages/${chatId}`,
     DELETE_BY_ID: (id: string) => `/api/v1/messages/${id}`,
+  },
+  CONFIG: {
+    ICE_SERVERS: "/api/v1/config/ice-servers",
   },
   ADMIN: {
     USERS: {

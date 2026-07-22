@@ -32,13 +32,28 @@ export interface Receipt {
   at: string;
 }
 
+export interface CallLog {
+  callType: "audio" | "video";
+  status:
+    | "ringing"
+    | "completed"
+    | "missed"
+    | "declined"
+    | "cancelled"
+    | "no_answer";
+  durationSec?: number;
+}
+
 export interface ChatMessage {
   _id: string;
   chatId: string;
   sender: string;
-  type: "text" | "image" | "video" | "audio" | "file";
+  type: "text" | "image" | "video" | "audio" | "file" | "call";
   content?: EncryptedPayload;
   attachment?: MessageAttachment;
+  // Present only when type === "call" - a server-written log entry, no
+  // encrypted content (see Backend/src/sockets/call-signaling.ts).
+  call?: CallLog;
   // Encryption scheme identifier ("box.v1" = nacl.box key-wrap + nacl.secretbox
   // content, the scheme lib/crypto/e2ee.ts implements). Lets a future protocol
   // change be told apart from messages encrypted under this one.
