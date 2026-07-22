@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import logo from "@/app/assets/images/logo.png";
 import { AuthProvider } from "@/lib/context/AuthContext";
+import { CallProvider } from "@/lib/context/CallContext";
 import { DashboardNav } from "./_components/dashboard-nav";
 
 export default function DashboardLayout({
@@ -34,9 +35,11 @@ export default function DashboardLayout({
       </aside>
 
       <AuthProvider>
-        <main className="h-screen min-w-0 flex-1 overflow-y-auto p-8">
-          {children}
-        </main>
+        <CallProvider>
+          <main className="h-screen min-w-0 flex-1 overflow-y-auto p-8">
+            {children}
+          </main>
+        </CallProvider>
       </AuthProvider>
     </section>
   );

@@ -34,7 +34,13 @@ function sortChatsByActivity(chats: ChatSummary[]): ChatSummary[] {
   });
 }
 
-export function ChatsClient({ initialUser }: { initialUser: any }) {
+export function ChatsClient({
+  initialUser,
+  initialChatId,
+}: {
+  initialUser: any;
+  initialChatId?: string;
+}) {
   const { user: authUser } = useAuth();
   const currentUser = authUser ?? initialUser;
   const myUserId: string | undefined = currentUser?._id;
@@ -42,7 +48,9 @@ export function ChatsClient({ initialUser }: { initialUser: any }) {
   const [secretKey, setSecretKey] = useState<string | null>(null);
   const [chats, setChats] = useState<ChatSummary[]>([]);
   const [chatsLoading, setChatsLoading] = useState(true);
-  const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
+  const [selectedChatId, setSelectedChatId] = useState<string | null>(
+    initialChatId ?? null,
+  );
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [messagesLoading, setMessagesLoading] = useState(false);
   const [sending, setSending] = useState(false);

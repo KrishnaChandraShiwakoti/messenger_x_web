@@ -15,6 +15,12 @@ function getPreviewText(
 ): string {
   const lastMessage = chat.lastMessage;
   if (!lastMessage) return "No messages yet";
+  if (lastMessage.type === "call") {
+    const call = lastMessage.call;
+    const kind = call?.callType === "video" ? "📹 Video call" : "📞 Voice call";
+    if (call?.status === "ringing") return `${kind} · Calling…`;
+    return call?.status === "completed" ? kind : `${kind} · missed`;
+  }
   if (lastMessage.type !== "text") {
     const labels: Record<string, string> = {
       image: "📷 Photo",

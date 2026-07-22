@@ -4,12 +4,14 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { Ic, icons } from "@/app/constants/icons";
+import { useCall } from "@/lib/context/CallContext";
 import type { ChatMember, ChatMessage, ChatSummary } from "../../_types/chat";
 import {
   avatarGradient,
   getChatAvatarUrl,
   getChatDisplayName,
   getInitials,
+  getOtherMember,
   isChatOnline,
 } from "../../_utils/chat-helpers";
 import { MessageBubble } from "./MessageBubble";
@@ -41,6 +43,7 @@ export function ConversationPanel({
   onSend: (text: string) => void;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { startCall, phase } = useCall();
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -102,20 +105,38 @@ export function ConversationPanel({
                 : "Offline"}
           </span>
         </span>
-        <button
-          type="button"
-          onClick={notImplemented}
-          aria-label="Voice call"
-          className="flex h-9 w-9 items-center justify-center rounded-full text-[#676d99] hover:bg-[#f6f5ff] hover:text-[#4037d5]">
-          <Ic d={icons.phone} size={17} />
-        </button>
-        <button
-          type="button"
-          onClick={notImplemented}
-          aria-label="Video call"
-          className="flex h-9 w-9 items-center justify-center rounded-full text-[#676d99] hover:bg-[#f6f5ff] hover:text-[#4037d5]">
-          <Ic d={icons.video} size={17} />
-        </button>
+        {chat.type === "direct" ? (
+          <>
+            <button
+              type="button"
+              disabled={phase !== "idle"}
+              onClick={() => {
+                const peer = getOtherMember(chat, myUserId);
+                startCall(chat._id, "audio", {
+                  name: peer?.fullName || name,
+                  avatarUrl: peer?.profilePicture,
+                });
+              }}
+              aria-label="Voice call"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-[#676d99] hover:bg-[#f6f5ff] hover:text-[#4037d5] disabled:cursor-not-allowed disabled:opacity-40">
+              <Ic d={icons.phone} size={17} />
+            </button>
+            <button
+              type="button"
+              disabled={phase !== "idle"}
+              onClick={() => {
+                const peer = getOtherMember(chat, myUserId);
+                startCall(chat._id, "video", {
+                  name: peer?.fullName || name,
+                  avatarUrl: peer?.profilePicture,
+                });
+              }}
+              aria-label="Video call"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-[#676d99] hover:bg-[#f6f5ff] hover:text-[#4037d5] disabled:cursor-not-allowed disabled:opacity-40">
+              <Ic d={icons.video} size={17} />
+            </button>
+          </>
+        ) : null}
         <button
           type="button"
           onClick={notImplemented}
