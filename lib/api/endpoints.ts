@@ -26,6 +26,9 @@ export const API = {
   CONFIG: {
     ICE_SERVERS: "/api/v1/config/ice-servers",
   },
+  AI: {
+    CHAT: "/api/v1/ai/chat",
+  },
   ADMIN: {
     USERS: {
       GET_ALL: "/api/v1/admin/users",
